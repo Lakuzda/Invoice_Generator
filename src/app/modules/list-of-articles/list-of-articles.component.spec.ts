@@ -8,6 +8,8 @@ import { By } from '@angular/platform-browser';
 import { ListOfArticlesComponent } from './list-of-articles.component';
 import { InvoiceService } from 'src/app/services/invoice-service.service';
 import { Router } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 describe('ListOfArticlesComponent', () => {
   let component: ListOfArticlesComponent;
@@ -25,6 +27,8 @@ describe('ListOfArticlesComponent', () => {
       imports: [
         ReactiveFormsModule,
         MatSnackBarModule,
+        MatFormFieldModule,
+        MatInputModule,
         RouterTestingModule,
         NoopAnimationsModule,
       ],
@@ -59,16 +63,24 @@ describe('ListOfArticlesComponent', () => {
 
     it('should display form error messages for invalid fields when submitted', () => {
       component.addItem();
-      component.items.at(0).patchValue({
+      component.items.at(0).setValue({
         name: '',
         count: 0,
         price: 0,
       });
 
+      component.items.at(0).get('name')?.markAsTouched();
+      component.items.at(0).get('count')?.markAsTouched();
+      component.items.at(0).get('price')?.markAsTouched();
+
       fixture.detectChanges();
       component.submit();
 
-      const errors = fixture.debugElement.queryAll(By.css('mat-error'));
+      fixture.detectChanges();
+
+      const errors = fixture.debugElement.queryAll(
+        By.css('.mat-mdc-form-field-error')
+      );
       expect(errors.length).toBeGreaterThan(0);
     });
 
@@ -105,8 +117,13 @@ describe('ListOfArticlesComponent', () => {
     });
 
     it('should display an error message if trying to submit an empty form', () => {
+      component.items.clear();
+      fixture.detectChanges();
+
       spyOn(component['snackBar'], 'open');
+
       component.submit();
+
       expect(component['snackBar'].open).toHaveBeenCalledWith(
         'Please add items',
         'Close',

@@ -13,7 +13,7 @@ describe('AppComponent', () => {
         MatToolbarModule,
         MatButtonModule,
       ],
-      declarations: [AppComponent],
+      declarations: [AppComponent, RouterLinkDirectiveStub],
     }).compileComponents();
   }));
 
@@ -39,20 +39,29 @@ describe('AppComponent', () => {
   it('should have correct router links', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const links = fixture.debugElement.queryAll(By.css('a'));
-    const routerLinkDirective = links.map((de) =>
+    const links = fixture.debugElement.queryAll(
+      By.directive(RouterLinkDirectiveStub)
+    );
+    const routerLinks = links.map((de) =>
       de.injector.get(RouterLinkDirectiveStub)
     );
-    expect(routerLinkDirective[0].routerLink).toBe('/list-of-articles');
-    expect(routerLinkDirective[1].routerLink).toBe('/summary');
+
+    expect(routerLinks.length).toBe(2);
+    expect(routerLinks[0].linkParams).toBe('/list-of-articles');
+    expect(routerLinks[1].linkParams).toBe('/summary');
   });
 });
 
-class RouterLinkDirectiveStub {
-  linkParams: any;
-  routerLink: any;
+import { Directive, Input } from '@angular/core';
+
+@Directive({
+  selector: '[routerLink]',
+})
+export class RouterLinkDirectiveStub {
+  @Input('routerLink') linkParams: any;
+  navigatedTo: any = null;
 
   onClick() {
-    return this.routerLink;
+    this.navigatedTo = this.linkParams;
   }
 }

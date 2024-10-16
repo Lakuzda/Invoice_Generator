@@ -105,14 +105,14 @@ describe('InfoAndSummaryComponent', () => {
     fixture.detectChanges();
 
     const noItemsMessage = fixture.debugElement.query(
-      By.css('p')
+      By.css('#no-items')
     ).nativeElement;
     expect(noItemsMessage.textContent).toContain('No items');
   });
 
   it('should display total correctly', () => {
     const totalElement = fixture.debugElement.query(
-      By.css('mat-card-content p')
+      By.css('#total')
     ).nativeElement;
     expect(totalElement.textContent).toContain('Total: 35'); // Suma to (2 * 10) + (1 * 15) = 35
   });

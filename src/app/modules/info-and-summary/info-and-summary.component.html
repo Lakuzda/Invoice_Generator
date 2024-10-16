@@ -3,8 +3,10 @@
     <mat-card-title>{{ companyInfo.name }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <p><strong>Address:</strong> {{ companyInfo.address }}</p>
-    <p><strong>Phones:</strong> {{ companyInfo.phones.join(", ") }}</p>
+    <p id="address"><strong>Address:</strong> {{ companyInfo.address }}</p>
+    <p id="phones">
+      <strong>Phones:</strong> {{ companyInfo.phones.join(", ") }}
+    </p>
   </mat-card-content>
 </mat-card>
 
@@ -18,14 +20,14 @@
         {{ item.name }}
       </mat-list-item>
     </mat-list>
-    <p>Total: {{ total }}</p>
+    <p id="total">Total: {{ total }}</p>
   </mat-card-content>
 </mat-card>
 
 <ng-template #noItems>
   <mat-card>
     <mat-card-content>
-      <p>No items</p>
+      <p id="no-items">No items</p>
     </mat-card-content>
   </mat-card>
 </ng-template>
