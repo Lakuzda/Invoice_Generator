@@ -1,0 +1,31 @@
+<mat-card *ngIf="companyInfo" class="company-info-card">
+  <mat-card-header>
+    <mat-card-title>{{ companyInfo.name }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p><strong>Address:</strong> {{ companyInfo.address }}</p>
+    <p><strong>Phones:</strong> {{ companyInfo.phones.join(", ") }}</p>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="items.length > 0; else noItems">
+  <mat-card-header>
+    <mat-card-title>Items List</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item *ngFor="let item of items">
+        {{ item.name }}
+      </mat-list-item>
+    </mat-list>
+    <p>Total: {{ total }}</p>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #noItems>
+  <mat-card>
+    <mat-card-content>
+      <p>No items</p>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
