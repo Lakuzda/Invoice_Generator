@@ -17,7 +17,7 @@ export class ListOfArticlesComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private invoiceService: InvoiceService,
-    private snackBar: MatSnackBar // Importujemy MatSnackBar
+    private snackBar: MatSnackBar
   ) {
     this.invoiceForm = this.fb.group({
       items: this.fb.array([]),
@@ -80,7 +80,6 @@ export class ListOfArticlesComponent implements OnInit {
         panelClass: ['error-snackbar'],
       });
     } else if (this.items.controls.some((item) => item.valid)) {
-      // Filter out valid items
       const validItems = this.items.controls
         .filter((item) => item.valid)
         .map((item) => item.value);
@@ -90,7 +89,6 @@ export class ListOfArticlesComponent implements OnInit {
         panelClass: ['success-snackbar'],
       });
 
-      // Update only valid items
       this.invoiceService.updateItems(validItems);
       this.router.navigate(['/summary']);
     } else {
